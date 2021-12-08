@@ -1,5 +1,8 @@
 ![banner](banner.png?raw=true)
 
+# Fork of grub2-themes inspired by nord theme.
+[https://www.nordtheme.com/](nordtheme.com)
+
 ## Installation:
 
 Usage:  `sudo ./install.sh [OPTIONS...]`
@@ -58,4 +61,3 @@ _If no options are used, a user interface `dialog` will show up instead_
 [Grub2 theme reference](http://wiki.rosalab.ru/en/index.php/Grub2_theme_/_reference)
 
 [Grub2 theme tutorial](http://wiki.rosalab.ru/en/index.php/Grub2_theme_tutorial)
-

@@ -20,8 +20,8 @@ terminal-border: "0"
   width = 40%
   height = 40%
   item_font = "DejaVu Sans Regular 32"
-  item_color = "#cccccc"
-  selected_item_color = "#ffffff"
+  item_color = "#ECEFF4"
+  selected_item_color = "#D8DEE9"
   icon_width = 64
   icon_height = 64
   item_icon_space = 36
@@ -47,6 +47,6 @@ terminal-border: "0"
   align = "center"
   id = "__timeout__"
   text = "Booting in %d seconds"
-  color = "#cccccc"
+  color = "#D8DEE9"
   font = "DejaVu Sans Regular 32"
 }
