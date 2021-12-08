@@ -14,10 +14,9 @@ THEME_DIR="/usr/share/grub/themes"
 REO_DIR="$(cd $(dirname $0) && pwd)"
 }
 
-THEME_VARIANTS=('nord' 'vimix')
+THEME_VARIANTS=('nord')
 ICON_VARIANTS=('white')
-# SCREEN_VARIANTS=('1080p' '2k' '4k' 'ultrawide' 'ultrawide2k')
-SCREEN_VARIANTS=('1080p')
+SCREEN_VARIANTS=('1080p' '2k' '4k' 'ultrawide' 'ultrawide2k')
 
 #COLORS
 CDEF=" \033[0m"                                     # default color
@@ -57,8 +56,6 @@ usage() {
   printf "%s\n" "Usage: ${0##*/} [OPTIONS...]"
   printf "\n%s\n" "OPTIONS:"
   printf "  %-25s%s\n" "-b, --boot" "install grub theme into /boot/grub/themes"
-  printf "  %-25s%s\n" "-t, --theme" "theme variant(s) [nord|vimix] (default is nord)"
-  printf "  %-25s%s\n" "-i, --icon" "icon variant(s) [white] (default is white)"
   printf "  %-25s%s\n" "-s, --screen" "screen display variant(s) [1080p|2k|4k|ultrawide|ultrawide2k] (default is 1080p)"
   printf "  %-25s%s\n" "-r, --remove" "Remove theme (must add theme name option)"
   printf "  %-25s%s\n" "-h, --help" "Show this help"
@@ -425,61 +422,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     -t|--theme)
       shift
-      for theme in "${@}"; do
-        case "${theme}" in
-          tela)
-            themes+=("${THEME_VARIANTS[0]}")
-            shift
-            ;;
-          vimix)
-            themes+=("${THEME_VARIANTS[1]}")
-            shift
-            ;;
-          stylish)
-            themes+=("${THEME_VARIANTS[2]}")
-            shift
-            ;;
-          whitesur)
-            themes+=("${THEME_VARIANTS[3]}")
-            shift
-            ;;
-          -*|--*)
-            break
-            ;;
-          *)
-            prompt -e "ERROR: Unrecognized theme variant '$1'."
-            prompt -i "Try '$0 --help' for more information."
-            exit 1
-            ;;
-        esac
-      done
+      theme='nord'
       ;;
     -i|--icon)
       shift
-      for icon in "${@}"; do
-        case "${icon}" in
-          color)
-            icons+=("${ICON_VARIANTS[0]}")
-            shift
-            ;;
-          white)
-            icons+=("${ICON_VARIANTS[1]}")
-            shift
-            ;;
-          whitesur)
-            icons+=("${ICON_VARIANTS[2]}")
-            shift
-            ;;
-          -*|--*)
-            break
-            ;;
-          *)
-            prompt -e "ERROR: Unrecognized icon variant '$1'."
-            prompt -i "Try '$0 --help' for more information."
-            exit 1
-            ;;
-        esac
-      done
+      icon='white'
       ;;
     -s|--screen)
       shift
@@ -509,7 +456,7 @@ while [[ $# -gt 0 ]]; do
             break
             ;;
           *)
-            prompt -e "ERROR: Unrecognized icon variant '$1'."
+            prompt -e "ERROR: Unrecognized screen variant '$1'."
             prompt -i "Try '$0 --help' for more information."
             exit 1
             ;;
@@ -531,17 +478,11 @@ done
 # Show terminal user interface for better use
 if [[ "${dialog:-}" == 'false' ]]; then
   if [[ "${remove:-}" != 'true' ]]; then
-    for theme in "${themes[@]-${THEME_VARIANTS[0]}}"; do
-      for icon in "${icons[@]-${ICON_VARIANTS[0]}}"; do
-        for screen in "${screens[@]-${SCREEN_VARIANTS[0]}}"; do
-          install "${theme}" "${icon}" "${screen}"
-        done
-      done
+    for screen in "${screens[@]-${SCREEN_VARIANTS[0]}}"; do
+      install "${theme}" "${icon}" "${screen}"
     done
   elif [[ "${remove:-}" == 'true' ]]; then
-    for theme in "${themes[@]-${THEME_VARIANTS[0]}}"; do
-      remove "${theme}"
-    done
+    remove "${theme}"
   fi
   else
   dialog_installer

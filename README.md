@@ -1,7 +1,5 @@
-![banner](banner.png?raw=true)
-
 # Fork of grub2-themes inspired by nord theme.
-[https://www.nordtheme.com/](nordtheme.com)
+[nordtheme.com](https://www.nordtheme.com/)
 
 ## Installation:
 
@@ -10,8 +8,6 @@ Usage:  `sudo ./install.sh [OPTIONS...]`
 |  Options:              | Description: |
 |:-----------------------|:-------------|
 | -b, --boot             | Install grub theme into `/boot/grub/themes` |
-| -t, --theme            | theme variant(s) [tela/vimix/stylish/whitesur] (default is tela)"
-| -i, --icon             | icon variant(s) [color/white/whitesur] (default is color)"
 | -s, --screen           | screen resolution variant(s) [1080p/2k/4k/ultrawide/ultrawide2k] (default is 1080p)"
 | -r, --remove [THEME]   | Uninstall selected theme |
 | -h, --help             | Show this help |
@@ -19,14 +15,14 @@ Usage:  `sudo ./install.sh [OPTIONS...]`
 _If no options are used, a user interface `dialog` will show up instead_
 
 ### Examples:
- - Install Tela theme on 2k display device:
-   - `sudo ./install.sh -t tela -s 2k`
+ - Install 2k display device:
+   - `sudo ./install.sh -s 2k`
 
- - Install Tela theme into /boot/grub/themes:
-   - `sudo ./install.sh -b -t tela`
+ - Install into /boot/grub/themes:
+   - `sudo ./install.sh -b`
 
- - Uninstall Tela theme:
-   - `sudo ./install.sh -r -t tela`
+ - Uninstall theme:
+   - `sudo ./install.sh -r`
 
 ## Issues / tweaks:
 
@@ -45,13 +41,6 @@ _If no options are used, a user interface `dialog` will show up instead_
  - Place your custom background inside the root of the project, and name it `background.jpg`
  - Run the installer like normal, but with -s `[YOUR_RESOLUTION]` and -t `[THEME]` and -i `[ICON]`
    - Make sure to replace `[YOUR_RESOLUTION]` with your resolution and `[THEME]` with the theme
-
-## Contributing:
- - If you made changes to icons, or added a new one:
-   - Delete the existing icon, if there is one
-   - Run `cd assets; ./render-all.sh`
- - Create a pull request from your branch or fork
- - If any issues occur, report then to the [issue](https://github.com/vinceliuice/grub2-themes/issues) page
 
 ## Preview:
 ![preview](preview.png?raw=true)
