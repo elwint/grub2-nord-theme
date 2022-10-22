@@ -4,15 +4,15 @@
 set -o errexit
 
 readonly ROOT_UID=0
-readonly Project_Name="GRUB2::THEMES"
+readonly Project_Name="GRUB2::NORD-THEME"
 readonly MAX_DELAY=20                               # max delay for user to enter root password
 tui_root_login=
 
 THEME_DIR="/usr/share/grub/themes"
 REO_DIR="$(cd $(dirname $0) && pwd)"
 
-THEME_VARIANTS=('tela' 'vimix' 'stylish' 'whitesur')
-ICON_VARIANTS=('color' 'white' 'whitesur')
+THEME_VARIANTS=('nord')
+ICON_VARIANTS=('white')
 SCREEN_VARIANTS=('1080p' '2k' '4k' 'ultrawide' 'ultrawide2k')
 
 #################################
@@ -60,8 +60,6 @@ usage() {
   printf "%s\n" "Usage: ${0##*/} [OPTIONS...]"
   printf "\n%s\n" "OPTIONS:"
   printf "  %-25s%s\n" "-b, --boot" "install grub theme into /boot/grub/themes"
-  printf "  %-25s%s\n" "-t, --theme" "theme variant(s) [tela|vimix|stylish|whitesur] (default is tela)"
-  printf "  %-25s%s\n" "-i, --icon" "icon variant(s) [color|white|whitesur] (default is color)"
   printf "  %-25s%s\n" "-s, --screen" "screen display variant(s) [1080p|2k|4k|ultrawide|ultrawide2k] (default is 1080p)"
   printf "  %-25s%s\n" "-r, --remove" "Remove theme (must add theme name option)"
   printf "  %-25s%s\n" "-g, --generate" "do not install, but generate theme into chosen directory"
@@ -254,31 +252,8 @@ run_dialog() {
       fi
     fi
 
-    tui=$(dialog --backtitle ${Project_Name} \
-    --radiolist "Choose your Grub theme background picture : " 15 40 5 \
-      1 "Vimix Theme" off  \
-      2 "Tela Theme" on \
-      3 "Stylish Theme" off  \
-      4 "WhiteSur Theme" off --output-fd 1 )
-      case "$tui" in
-        1) theme="vimix"      ;;
-        2) theme="tela"       ;;
-        3) theme="stylish"    ;;
-        4) theme="whitesur"   ;;
-        *) operation_canceled ;;
-     esac
-
-    tui=$(dialog --backtitle ${Project_Name} \
-    --radiolist "Choose icon style : " 15 40 5 \
-      1 "white" off \
-      2 "color" on \
-      3 "whitesur" off --output-fd 1 )
-      case "$tui" in
-        1) icon="white"       ;;
-        2) icon="color"       ;;
-        3) icon="whitesur"    ;;
-        *) operation_canceled ;;
-     esac
+    theme="nord"
+    icon="white"
 
     tui=$(dialog --backtitle ${Project_Name} \
     --radiolist "Choose your Display Resolution : " 15 40 5 \
@@ -474,61 +449,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     -t|--theme)
       shift
-      for theme in "${@}"; do
-        case "${theme}" in
-          tela)
-            themes+=("${THEME_VARIANTS[0]}")
-            shift
-            ;;
-          vimix)
-            themes+=("${THEME_VARIANTS[1]}")
-            shift
-            ;;
-          stylish)
-            themes+=("${THEME_VARIANTS[2]}")
-            shift
-            ;;
-          whitesur)
-            themes+=("${THEME_VARIANTS[3]}")
-            shift
-            ;;
-          -*)
-            break
-            ;;
-          *)
-            prompt -e "ERROR: Unrecognized theme variant '$1'."
-            prompt -i "Try '$0 --help' for more information."
-            exit 1
-            ;;
-        esac
-      done
+      theme='nord'
       ;;
     -i|--icon)
       shift
-      for icon in "${@}"; do
-        case "${icon}" in
-          color)
-            icons+=("${ICON_VARIANTS[0]}")
-            shift
-            ;;
-          white)
-            icons+=("${ICON_VARIANTS[1]}")
-            shift
-            ;;
-          whitesur)
-            icons+=("${ICON_VARIANTS[2]}")
-            shift
-            ;;
-          -*)
-            break
-            ;;
-          *)
-            prompt -e "ERROR: Unrecognized icon variant '$1'."
-            prompt -i "Try '$0 --help' for more information."
-            exit 1
-            ;;
-        esac
-      done
+      icon='white'
       ;;
     -s|--screen)
       shift
@@ -558,7 +483,7 @@ while [[ $# -gt 0 ]]; do
             break
             ;;
           *)
-            prompt -e "ERROR: Unrecognized icon variant '$1'."
+            prompt -e "ERROR: Unrecognized screen variant '$1'."
             prompt -i "Try '$0 --help' for more information."
             exit 1
             ;;
@@ -584,17 +509,11 @@ done
 # Show terminal user interface for better use
 if [[ "${dialog:-}" == 'false' ]]; then
   if [[ "${remove:-}" != 'true' ]]; then
-    for theme in "${themes[@]-${THEME_VARIANTS[0]}}"; do
-      for icon in "${icons[@]-${ICON_VARIANTS[0]}}"; do
-        for screen in "${screens[@]-${SCREEN_VARIANTS[0]}}"; do
-          $install "${theme}" "${icon}" "${screen}"
-        done
-      done
+    for screen in "${screens[@]-${SCREEN_VARIANTS[0]}}"; do
+      install "${theme}" "${icon}" "${screen}"
     done
   elif [[ "${remove:-}" == 'true' ]]; then
-    for theme in "${themes[@]-${THEME_VARIANTS[0]}}"; do
-      remove "${theme}"
-    done
+    remove "${theme}"
   fi
   else
   dialog_installer
