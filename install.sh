@@ -104,9 +104,9 @@ generate() {
 }
 
 install() {
-  local theme=${1}
-  local icon=${2}
-  local screen=${3}
+  local theme="nord"
+  local icon="white"
+  local screen="1080p"
 
   # Check for root access and proceed if it is present
   if [[ "$UID" -eq "$ROOT_UID" ]]; then
